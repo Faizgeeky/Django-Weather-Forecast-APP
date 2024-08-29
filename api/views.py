@@ -24,8 +24,8 @@ def get_weather(cities):
                 data = response.json()
                 temp_city = {}
                 temp_city['city'] = data['location']['name']
-                temp_city['temp_c'] = str(data['current']['temp_c'])
-                temp_city['temp_f'] = data['current']['temp_f']
+                temp_city['temp_c'] = float(data['current']['temp_c'])
+                temp_city['temp_f'] = float(data['current']['temp_f'])
                 temp_city['date'] = data['location']['localtime']
                 city_weather_list.append(temp_city)
         return city_weather_list
@@ -61,8 +61,8 @@ def check_weather(request):
                 })
         else:
             return render(request,'index.html',{"message":"Cities not found in Req body!"} )
-
-        return render(request, 'index.html', {"data": weather_data})
+        
+        return render(request, 'index.html', {"data": weather_data} , )
     
 
 

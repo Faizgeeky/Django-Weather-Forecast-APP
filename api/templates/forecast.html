@@ -34,6 +34,18 @@
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <div>
                                     <h5>{{ city_name }}</h5>
+                                    <!-- check for temperature alerts -->
+                                    {% if weather_data.avg_temp_c > 20 %}
+                                    <div class="alert alert-danger" role="alert">
+                                        This is a high average temperature Alert! {{ weather_data.avg_temp_c }}°C in {{ city_name }}
+                                    </div>
+                                    {% endif %}
+
+                                    {% if weather_data.avg_temp_c < -5 %} <div class="alert alert-primary" role="alert">
+                                        This is a low average temperature Alert! {{ weather_data.avg_temp_c }}°C in {{ city_name }}
+                                        </div>
+                                    {% endif %}
+                                    <!-- display out the aggregate trends -->
                                     <small>Max Temp : <span class="badge bg-danger">{{ weather_data.max_temp_c }}°C</span></small><br>
                                     <small>Min Temp : <span class="badge bg-success">{{ weather_data.min_temp_c }}°C</span></small><br>
                                     <small>Min Temp : <span class="badge bg-warning">{{ weather_data.avg_temp_c }}°C</span></small>
