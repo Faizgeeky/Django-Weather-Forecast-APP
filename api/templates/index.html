@@ -25,19 +25,29 @@
                     </div>
                     <div class="card-body">
                         {% if data %}
-                        <h4 class="text-center">City Weather Data</h4>
+                        <h4 class="text-center">City wise Weather Data</h4>
                         <ul class="list-group">
                             {% for city in data %}
                                 <!-- check for alert -->
                                 {% if city.temp_c > 20 %}
-                                    <div class="alert alert-danger" role="alert">
-                                        This is a high temperature Alert! {{ city.temp_c }}°C in {{ city.city }}
+                                  
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+                                            <use xlink:href="#exclamation-triangle-fill" />
+                                        </svg>
+                                        <strong>High temperature Alert!</strong> {{ city.temp_c }}°C in {{ city.city }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                     </div>
+
                                 {% endif %}
                                 {% if city.temp_c < -5 %}
-                                <div class="alert alert-primary" role="alert">
-                                    This is a low temperature Alert! {{ city.temp_c }}°C in {{ city.city }}
-                                </div>
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+                                            <use xlink:href="#exclamation-triangle-fill" />
+                                        </svg>
+                                            <strong>Low temperature Alert!</strong> {{ city.temp_c }}°C in {{ city.city }}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
                                 {% endif %}
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <div>

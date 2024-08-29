@@ -16,6 +16,8 @@
         </div>
 
         <button type="submit" class="btn btn-primary">Get Forecast</button>
+        <br><br>
+        <center><h4 class="bg-danger text-white">Note : >20°C and <-5°C will consider as extreme temperature just for testing.</h4></center>
     </form>
 
     <div class="container my-5">
@@ -36,14 +38,23 @@
                                     <h5>{{ city_name }}</h5>
                                     <!-- check for temperature alerts -->
                                     {% if weather_data.avg_temp_c > 20 %}
-                                    <div class="alert alert-danger" role="alert">
-                                        This is a high average temperature Alert! {{ weather_data.avg_temp_c }}°C in {{ city_name }}
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+                                            <use xlink:href="#exclamation-triangle-fill" />
+                                        </svg>
+                                        <strong>High Avg temperature Alert!</strong> {{ weather_data.avg_temp_c }}°C in {{ city_name }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                     </div>
                                     {% endif %}
 
-                                    {% if weather_data.avg_temp_c < -5 %} <div class="alert alert-primary" role="alert">
-                                        This is a low average temperature Alert! {{ weather_data.avg_temp_c }}°C in {{ city_name }}
-                                        </div>
+                                    {% if weather_data.avg_temp_c < -5 %}
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+                                            <use xlink:href="#exclamation-triangle-fill" />
+                                        </svg>
+                                        <strong>Low Avg temperature Alert!</strong> {{ weather_data.avg_temp_c }}°C in {{ city_name }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
                                     {% endif %}
                                     <!-- display out the aggregate trends -->
                                     <small>Max Temp : <span class="badge bg-danger">{{ weather_data.max_temp_c }}°C</span></small><br>
