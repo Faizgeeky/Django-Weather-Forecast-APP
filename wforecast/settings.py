@@ -4,6 +4,8 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 import environ
+import dj_database_url
+import os
 # Initialise environment variables
 env = environ.Env()
 environ.Env.read_env()
@@ -17,7 +19,7 @@ SECRET_KEY = "django-insecure-jg3p_lzu*+jb2x%7d$g2cfmw6=me0^_79e32g7bvrae6*5b$%p
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*','.versel.app']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -66,11 +68,14 @@ WEATHER_API = env('WEATHER_API')
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
+#     }
+# }
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+    "default": dj_database_url.parse(os.environ.get("DATABASE_URL"))
 }
 
 
