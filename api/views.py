@@ -27,6 +27,8 @@ def get_weather(cities):
                 temp_city['temp_c'] = float(data['current']['temp_c'])
                 temp_city['temp_f'] = float(data['current']['temp_f'])
                 temp_city['date'] = data['location']['localtime']
+                temp_city['humidity'] = data['current']['humidity']
+                temp_city['country'] = data['location']['country']
                 city_weather_list.append(temp_city)
         return city_weather_list
     else:
@@ -39,7 +41,7 @@ def check_weather(request):
         # get cities need forecast for
         cities = request.POST.get('cities').split(",")
         
-
+        # if cities are correct get weather using api and create instace with all data we have and store it into model db
         if cities:
             weather_data = get_weather(cities)
             print("Data us", weather_data)
@@ -49,10 +51,12 @@ def check_weather(request):
                         city=data['city'],
                         temp_c=data['temp_c'],
                         temp_f=data['temp_f'],
+                        humidity = data['humidity'],
+                        country=data['country'],
                         date=data['date']
                     ) for data in weather_data
                 ]
-                
+                # add data in bulk instead of each data we parse one by one which can save cost for db call
                 CityWeather.objects.bulk_create(city_weather_instances)
             except Exception as e:
                 return render(request, "index.html", {
@@ -61,7 +65,7 @@ def check_weather(request):
                 })
         else:
             return render(request,'index.html',{"message":"Cities not found in Req body!"} )
-        
+        # 200
         return render(request, 'index.html', {"data": weather_data} , )
     
 
@@ -71,27 +75,21 @@ def forecast(request):
         return render(request, 'forecast.html')
     elif request.method == "POST":
         cities = request.POST.get('cities').split(",")
-
-
         last_24_hrs =  datetime.datetime.now() - datetime.timedelta(days=1)
-
-        print(last_24_hrs)
         if cities:
             city_object = {}
             for city in cities:
                 data = CityWeather.objects.filter(city = city ,date__gt=last_24_hrs)
-                data = data.aggregate(
-                    avg_temp_c = Avg('temp_c'),
-                    max_temp_c = Avg('temp_c'),
-                    min_temp_c = Avg('temp_c'),
+                if data:
+                    data = data.aggregate(
+                        avg_temp_c = Avg('temp_c'),
+                        avg_temp_f = Avg('temp_f'),
+                        avg_humidity = Avg('humidity')
+                    )
+                    print("data is", data)
+                    city_object[city] = data
 
-                    avg_temp_f = Avg('temp_f'),
-                    max_temp_f = Avg('temp_f'),
-                    min_temp_f = Avg('temp_f'),
-
-                )
-                
-                city_object[city] = data
-
-    print(city_object)        
-    return render(request, 'forecast.html', {'data':city_object})
+    if len(city_object) >0:
+        return render(request, 'forecast.html', {'data':city_object})
+    else:
+        return render(request, 'forecast.html')

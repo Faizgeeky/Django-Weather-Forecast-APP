@@ -17,7 +17,7 @@
 
         <button type="submit" class="btn btn-primary">Get Forecast</button>
         <br><br>
-        <center><h4 class="bg-danger text-white">Note : >20°C and <-5°C will consider as extreme temperature just for testing.</h4></center>
+        <center><h5 class="text-danger">Note : >20°C and <-5°C will consider as extreme temperature just for testing.</h5></center>
     </form>
 
     <div class="container my-5">
@@ -57,16 +57,16 @@
                                     </div>
                                     {% endif %}
                                     <!-- display out the aggregate trends -->
-                                    <small>Max Temp : <span class="badge bg-danger">{{ weather_data.max_temp_c }}°C</span></small><br>
-                                    <small>Min Temp : <span class="badge bg-success">{{ weather_data.min_temp_c }}°C</span></small><br>
-                                    <small>Min Temp : <span class="badge bg-warning">{{ weather_data.avg_temp_c }}°C</span></small>
+                                    <small>Avg Temp : <span class="badge bg-danger">{{ weather_data.avg_temp_c }}°C</span></small><br>
+                                    <small>Avg Temp : <span class="badge bg-success">{{ weather_data.avg_temp_f }}°F</span></small><br>
+                                    <small>Avg Humidity : <span class="badge bg-warning">{{ weather_data.avg_humidity }}%</span></small>
                                 </div>
                                 
                             </li>
                             {% endfor %}
                         </ul>
                         {% else %}
-                        <p class="text-center text-muted">No weather data available. Please select a city.</p>
+                        <p class="text-center text-muted">No weather data available in DB. Please select a city.</p>
                         {% endif %}
                     </div>
 
