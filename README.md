@@ -2,6 +2,10 @@
 
 Real Time Weather Forecast and Historical data Insight
 
+## Project Screenshot
+
+![Weather Forecast](prrof.png)
+
 
 
 ## Installation
